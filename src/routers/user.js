@@ -41,7 +41,7 @@ userRouter.get('/users', async (req, res) => {
     }
 });
 
-userRouter.get('/users/:id', async (req, res) => {
+/*userRouter.get('/users/:id', async (req, res) => {
     const _id = req.params.id;
     try {
         const user = await User.findById(_id);
@@ -52,6 +52,10 @@ userRouter.get('/users/:id', async (req, res) => {
     } catch (e) {
         res.status(500).send()
     }
+});*/
+
+userRouter.get('/users/:id', auth, async (req, res) => {
+    res.send(req.user)
 });
 
 /*userRouter.delete('/users/:id', async (req, res) => {
@@ -68,7 +72,7 @@ userRouter.get('/users/:id', async (req, res) => {
 
 userRouter.delete('/users/me', auth, async (req, res) => {
     try {
-        await req.user.remove()
+        await req.user.remove();
         res.send(req.user)
     } catch (e) {
         res.status(500).send()
@@ -150,14 +154,14 @@ userRouter.post('/users/logout', auth, async (req, res) => {
     }
 });
 
-userRouter.post('/users/logoutAll', auth, async (req,res)=>{
+userRouter.post('/users/logoutAll', auth, async (req, res) => {
     try {
-        req.user.tokens = []
-        await req.user.save()
+        req.user.tokens = [];
+        await req.user.save();
         res.send()
     } catch (e) {
         res.status(500).send()
     }
-})
+});
 
 module.exports = userRouter;
