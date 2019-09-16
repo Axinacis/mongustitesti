@@ -12,7 +12,10 @@ const birdSchema = new mongoose.Schema({
         validate: (x) => {
             return x > 0 && Number.isInteger(x)
         }
-
+    }, owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 
 

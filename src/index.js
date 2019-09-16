@@ -46,6 +46,24 @@ app.listen(port, () => {
     console.log('Listening to port 3k')
 });
 
+/*
+const Bird = require('./models/bird');
+const User = require('./models/user')
+
+const test = async () => {
+    const bird = await Bird.findById('5d7f2bf767e65820601845dc');
+    await bird.populate('owner').execPopulate()
+    console.log(bird.owner)
+};
+
+const test = async () => {
+    const user = await User.findById('5d7f2a3b67e65820601845d9')
+    await user.populate('birds').execPopulate()
+    console.log(user.birds)
+}
+
+test();
+*/
 
 /*
 const pulu = new Bird({

@@ -29,6 +29,12 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+userSchema.virtual('birds', {
+    ref: 'Bird',
+    localField: '_id',
+    foreignField: 'owner'
+});
+
 userSchema.methods.generateToken = async function () {
     const user = this;
     const token = jwt.sign({_id: user._id.toString()}, 'mySecret');
