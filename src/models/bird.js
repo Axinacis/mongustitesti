@@ -17,8 +17,8 @@ const birdSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     }
-
-
+}, {
+    timestamps: true
 });
 
 const Bird = mongoose.model('Bird', birdSchema);

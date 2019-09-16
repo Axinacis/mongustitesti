@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Bird = require('./bird');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -27,6 +28,8 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    timestamps: true
 });
 
 userSchema.virtual('birds', {
@@ -72,6 +75,10 @@ userSchema.pre('save', async function (next) {
     next()
 });
 
+userSchema.pre('remove', async function (next) {
+    const user = this;
+    await Bird.deleteMany({owner: user._id})
+});
 
 const User = mongoose.model('User', userSchema);
 // noinspection JSUndefinedPropertyAssignment

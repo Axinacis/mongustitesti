@@ -36,6 +36,15 @@ birdRouter.get('/birds/:id', auth, async (req, res) => {
         res.status(500).send(e)
     }
 });
+/*
+birdRouter.get('/allbirds', async (req, res) => {
+    try {
+        const birds = await Bird.find({});
+        res.send(birds)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+});*/
 
 birdRouter.get('/allbirds', async (req, res) => {
     try {
