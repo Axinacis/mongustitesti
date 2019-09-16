@@ -59,20 +59,18 @@ birdRouter.get('/allbirds', async (req, res) => {
 
 birdRouter.get('/allbirds', async (req, res) => {
     const match = {};
-    let sortArr = [];
     let sortField = '';
+    //const mySort = {}
 
     if (req.query.sortBy) {
-        sortArr = req.query.sortBy.split(':');
+        const sortArr = req.query.sortBy.split(':');
         sortField = sortArr[0];
-        /*if(sortArr.length >1) {
-            sortType = (sortArr[1]).toLowerCase();
-        } else {
-            sortType = 'asc'
-        }*/
-        if (sortArr[1] && sortArr[1].match(/^(desc|descending|'-1')$/)) {
+        if (sortArr[1] && sortArr[1].match(/^(desc|descending|-1)$/)) {
             sortField = '-' + sortField
         }
+        /*
+        mySort[sortArr[0]] = sortArr[1].match(/^(desc|descending|-1)$/) ? -1 : 1
+        */
     }
 
     if (req.query.place) {
@@ -88,15 +86,8 @@ birdRouter.get('/allbirds', async (req, res) => {
     }
 
     try {
-        //const birds = await Bird.find(match).sort(mysort);
 
         const Query = await Bird.find(match).sort(sortField);
-        /*
-        if (sortField && sortType === 'asc') {
-            const result = await Query.sort(sortField); // firstname
-        } else if (sortField && sortType === 'desc') {
-            const result = await Query.sort('-'+sortField); // -firstname
-        }*/
         res.send(Query)
     } catch (e) {
         res.status(500).send(e)
