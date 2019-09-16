@@ -18,20 +18,62 @@ birdRouter.post('/birds', auth, async (req, res) => {
 
 });
 
-birdRouter.get('/birds', auth, async (req, res) => {
+/*
+await req.user.populate...execPopulate()
+Omat havainnot populate: path, options (limit, skip, sort)
+lisää match
+*/
+/*birdRouter.get('/birds', auth, async (req, res) => {
     try {
         const birds = await Bird.find({owner: req.user._id});
         res.send(birds)
     } catch (e) {
         res.status(500).send(e)
     }
-});
+});*/
 
 birdRouter.get('/birds/:id', auth, async (req, res) => {
     const _id = req.params.id;
     try {
         const bird = await Bird.findById({_id});
         res.send(bird)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+});
+
+birdRouter.get('/birds', auth, async (req, res) => {
+    const match = {};
+    const mySort = {};
+
+    if (req.query.sortBy) {
+        const sortArr = req.query.sortBy.split(':');
+        mySort[sortArr[0]] = sortArr[1].match(/^(desc|descending|-1)$/) ? -1 : 1
+    }
+
+    if (req.query.place) {
+        match.place = req.query.place
+    }
+
+    if (req.query.name) {
+        match.name = req.query.name
+    }
+
+    if (req.query.count) {
+        match.count = req.query.count
+    }
+
+    try {
+        await req.user.populate({
+            path: 'birds',
+            match,
+            options: {
+                limit: parseInt(req.query.limit),
+                skip: parseInt(req.query.skip),
+                mySort
+            }
+        }).execPopulate();
+        res.send(req.user.birds)
     } catch (e) {
         res.status(500).send(e)
     }

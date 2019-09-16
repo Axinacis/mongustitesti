@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const birdRouter = require('./routers/bird');
 const userRouter = require('./routers/user');
+const path = require('path');
+const axios = require('axios');
 // const Bird = require('./models/bird');
 
 mongoose.connect('mongodb://localhost:27017/bird-api', {
@@ -16,6 +18,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use([userRouter, birdRouter]);
+app.use(express.static(path.join(__dirname, '../public')));
 
 /*
 Bird.findByIdAndUpdate("5d68d64c71801e06f801f2c7", {count: 99}).then(bird => {
@@ -45,6 +48,19 @@ updateCountAndRecount("5d68d64c71801e06f801f2c7", 3).then((result) => {
 app.listen(port, () => {
     console.log('Listening to port 3k')
 });
+/*
+
+const data = {name: 'wankler', email: 'hv@vh.fi', password: 'passujoo'};
+async function axpost() {
+    try {
+        const res = await axios.post('http://localhost:3000/users', data)
+        console.log(res.data)
+    } catch (e) {
+        console.log('pask')
+    }
+}
+axpost()
+*/
 
 /*
 const Bird = require('./models/bird');
