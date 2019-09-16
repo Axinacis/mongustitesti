@@ -45,10 +45,34 @@ birdRouter.get('/allbirds', async (req, res) => {
         res.status(500).send(e)
     }
 });*/
+/*
 
 birdRouter.get('/allbirds', async (req, res) => {
     try {
-        const birds = await Bird.find({});
+        const birds = await Bird.find({place: req.query.place, name: req.query.name});
+        res.send(birds)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+});
+*/
+
+birdRouter.get('/allbirds', async (req, res) => {
+    const match = {}
+    if(req.query.place) {
+        match.place = req.query.place
+    }
+
+    if(req.query.name) {
+        match.name = req.query.name
+    }
+
+    if(req.query.count) {
+        match.count = req.query.count
+    }
+
+    try {
+        const birds = await Bird.find(match);
         res.send(birds)
     } catch (e) {
         res.status(500).send(e)
