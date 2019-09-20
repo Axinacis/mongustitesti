@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<link href="style.css" type="text/css" rel="stylesheet">
+	
+	<head>
+		<meta charset="UTF-8">
+		<title>BORDS!</title>
+	</head>
+	
+	<body>
+		<div class="containerAll">
+			<div class="container1">
+				<h1>New user</h1>
+				<p id="regPrompt">Register user:</p>
+				<form>
+					<div class="fields">
+						<input type="text" id='username'  placeholder='Username'>
+						<input type='email' id='email'  placeholder='Email'>
+						<input type='password' id='password'  placeholder='Password'>
+					</div>
+					<button>Create</button>
+				</form>
+			
+			
+			</div>
+			<div class="container2">
+				<p id="message1">PLACEHOLDER</p>
+				<!--				<p id="message2"></p>-->
+			</div>
+		</div>
+<!--		<script src="app.js"></script>-->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script>
+            const birdForm = document.querySelector('form');
+            const name = document.querySelector('#username');
+            const email = document.querySelector('#email');
+            const password = document.querySelector('#password');
+            const messageOne = document.querySelector('#message1');
+            
+            
+            birdForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                messageOne.textContent = 'CREATING USER';
+                const data = {name, email,password}
+                console.log(data)
+                axios.post('http://localhost:3000/users', data)
+	                .then(res=> {
+                    messageOne.textContent = res.data
+                }).catch (e => {
+                    console.log(e)
+	            })
+             
+            })
+		</script>
+	</body>
+</html>
